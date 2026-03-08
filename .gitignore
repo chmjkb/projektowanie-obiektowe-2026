@@ -1,0 +1,60 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Pascal / FPC
+*.o
+*.ppu
+*.a
+link.res
+LAB1/main
+LAB1/tests
+
+# Java / Kotlin / Spring Boot
+*.class
+*.jar
+*.war
+.gradle/
+build/
+target/
+out/
+
+# Go
+/LAB*/main
+*.exe
+
+# Node.js / React
+node_modules/
+dist/
+.next/
+.env
+.env.local
+
+# PHP / Composer
+vendor/
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Swift / Vapor
+.build/
+DerivedData/
+*.xcuserstate
+
+# Android
+*.apk
+*.aab
+*.keystore
+.gradle/
+local.properties
