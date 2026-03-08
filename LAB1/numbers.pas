@@ -4,18 +4,18 @@ unit Numbers;
 
 interface
 
-procedure GenerateRandom(var Arr: array of Integer);
+procedure GenerateRandom(var Arr: array of Integer; MinVal: Integer; MaxVal: Integer);
 procedure SortNumbers(var Arr: array of Integer);
 
 implementation
 
-procedure GenerateRandom(var Arr: array of Integer);
+procedure GenerateRandom(var Arr: array of Integer; MinVal: Integer; MaxVal: Integer);
 var
   I: Integer;
 begin
   Randomize;
   for I := 0 to High(Arr) do
-    Arr[I] := Random(101);
+    Arr[I] := MinVal + Random(MaxVal - MinVal + 1);
 end;
 
 procedure SortNumbers(var Arr: array of Integer);
