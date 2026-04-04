@@ -10,11 +10,11 @@ data class LoginResponse(val success: Boolean, val message: String)
 
 @RestController
 @RequestMapping("/auth")
-class AuthController {
+class AuthController(private val authService: AuthService) {
 
     @PostMapping("/login")
     fun login(@RequestBody request: LoginRequest): LoginResponse {
-        val authenticated = AuthService.instance.authenticate(request.username, request.password)
+        val authenticated = authService.authenticate(request.username, request.password)
         return if (authenticated) {
             LoginResponse(success = true, message = "Authentication successful")
         } else {
