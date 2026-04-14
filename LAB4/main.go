@@ -19,6 +19,15 @@ type Weather struct {
 	Longitude float64 `json:"longitude"`
 }
 
+// WeatherReading stores weather data fetched from external API
+type WeatherReading struct {
+	gorm.Model
+	City        string  `json:"city"`
+	Temperature float64 `json:"temperature"`
+	WeatherCode int     `json:"weather_code"`
+	Description string  `json:"description"`
+}
+
 // WeatherResponse represents weather data returned by our API
 type WeatherResponse struct {
 	City        string  `json:"city"`
@@ -104,7 +113,7 @@ func initDB() {
 	}
 
 	// Auto migrate the schema
-	db.AutoMigrate(&Weather{})
+	db.AutoMigrate(&Weather{}, &WeatherReading{})
 
 	// Load initial data from list
 	cities := []Weather{
@@ -151,10 +160,21 @@ func getWeather(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
 	}
 
+	description := weatherCodeToDescription(data.WeatherCode)
+
+	// Save fetched data to database
+	reading := WeatherReading{
+		City:        city.City,
+		Temperature: data.Temperature,
+		WeatherCode: data.WeatherCode,
+		Description: description,
+	}
+	db.Create(&reading)
+
 	weather := WeatherResponse{
 		City:        city.City,
 		Temperature: data.Temperature,
-		Description: weatherCodeToDescription(data.WeatherCode),
+		Description: description,
 	}
 
 	return c.JSON(http.StatusOK, weather)
