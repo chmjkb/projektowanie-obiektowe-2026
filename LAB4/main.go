@@ -134,8 +134,9 @@ func main() {
 
 	e := echo.New()
 
-	// Weather controller endpoint
+	// Weather controller endpoints
 	e.GET("/weather", getWeather)
+	e.GET("/weather/all", getAllWeather)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
@@ -178,4 +179,42 @@ func getWeather(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, weather)
+}
+
+// getAllWeather returns weather data for all cities in the database
+func getAllWeather(c echo.Context) error {
+	// Get all cities from database
+	var cities []Weather
+	if result := db.Find(&cities); result.Error != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to fetch cities"})
+	}
+
+	var responses []WeatherResponse
+
+	for _, city := range cities {
+		// Fetch weather from external API via proxy
+		data, err := weatherService.GetWeather(city.Latitude, city.Longitude)
+		if err != nil {
+			continue // Skip cities that fail to fetch
+		}
+
+		description := weatherCodeToDescription(data.WeatherCode)
+
+		// Save fetched data to database
+		reading := WeatherReading{
+			City:        city.City,
+			Temperature: data.Temperature,
+			WeatherCode: data.WeatherCode,
+			Description: description,
+		}
+		db.Create(&reading)
+
+		responses = append(responses, WeatherResponse{
+			City:        city.City,
+			Temperature: data.Temperature,
+			Description: description,
+		})
+	}
+
+	return c.JSON(http.StatusOK, responses)
 }
