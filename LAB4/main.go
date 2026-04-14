@@ -3,10 +3,21 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
+
+// Weather is a GORM model representing a city with its coordinates
+type Weather struct {
+	gorm.Model
+	City      string  `json:"city" gorm:"uniqueIndex"`
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
+}
 
 // WeatherResponse represents weather data returned by our API
 type WeatherResponse struct {
@@ -66,8 +77,36 @@ func weatherCodeToDescription(code int) string {
 }
 
 var proxy = &WeatherProxy{}
+var db *gorm.DB
+
+// initDB initializes the database and loads initial data
+func initDB() {
+	var err error
+	db, err = gorm.Open(sqlite.Open("weather.db"), &gorm.Config{})
+	if err != nil {
+		log.Fatal("Failed to connect to database:", err)
+	}
+
+	// Auto migrate the schema
+	db.AutoMigrate(&Weather{})
+
+	// Load initial data from list
+	cities := []Weather{
+		{City: "Warsaw", Latitude: 52.2297, Longitude: 21.0122},
+		{City: "Krakow", Latitude: 50.0647, Longitude: 19.9450},
+		{City: "Gdansk", Latitude: 54.3520, Longitude: 18.6466},
+		{City: "Wroclaw", Latitude: 51.1079, Longitude: 17.0385},
+		{City: "Poznan", Latitude: 52.4064, Longitude: 16.9252},
+	}
+
+	for _, city := range cities {
+		db.FirstOrCreate(&city, Weather{City: city.City})
+	}
+}
 
 func main() {
+	initDB()
+
 	e := echo.New()
 
 	// Weather controller endpoint
@@ -76,25 +115,28 @@ func main() {
 	e.Logger.Fatal(e.Start(":8080"))
 }
 
-// getWeather returns weather data for a given city (using coordinates)
+// getWeather returns weather data for a given city
 func getWeather(c echo.Context) error {
-	city := c.QueryParam("city")
-	if city == "" {
-		city = "Warsaw"
+	cityName := c.QueryParam("city")
+	if cityName == "" {
+		cityName = "Warsaw"
 	}
 
-	// Default coordinates for Warsaw
-	lat := 52.2297
-	lon := 21.0122
+	// Look up city in database
+	var city Weather
+	result := db.Where("city = ?", cityName).First(&city)
+	if result.Error != nil {
+		return c.JSON(http.StatusNotFound, map[string]string{"error": "City not found in database"})
+	}
 
 	// Fetch weather from external API via proxy
-	data, err := proxy.FetchWeather(lat, lon)
+	data, err := proxy.FetchWeather(city.Latitude, city.Longitude)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
 	}
 
 	weather := WeatherResponse{
-		City:        city,
+		City:        city.City,
 		Temperature: data.CurrentWeather.Temperature,
 		Description: weatherCodeToDescription(data.CurrentWeather.WeatherCode),
 	}
