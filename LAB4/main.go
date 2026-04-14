@@ -26,6 +26,17 @@ type WeatherResponse struct {
 	Description string  `json:"description"`
 }
 
+// WeatherData represents the weather information from any source
+type WeatherData struct {
+	Temperature float64
+	WeatherCode int
+}
+
+// WeatherService is an interface for fetching weather data (Proxy pattern)
+type WeatherService interface {
+	GetWeather(lat, lon float64) (*WeatherData, error)
+}
+
 // OpenMeteoResponse represents the response from Open-Meteo API
 type OpenMeteoResponse struct {
 	CurrentWeather struct {
@@ -34,10 +45,11 @@ type OpenMeteoResponse struct {
 	} `json:"current_weather"`
 }
 
-// WeatherProxy fetches weather data from external Open-Meteo API
-type WeatherProxy struct{}
+// OpenMeteoProxy is a proxy that fetches weather data from external Open-Meteo API
+// It implements the WeatherService interface (Proxy structural pattern)
+type OpenMeteoProxy struct{}
 
-func (p *WeatherProxy) FetchWeather(lat, lon float64) (*OpenMeteoResponse, error) {
+func (p *OpenMeteoProxy) GetWeather(lat, lon float64) (*WeatherData, error) {
 	url := fmt.Sprintf("https://api.open-meteo.com/v1/forecast?latitude=%f&longitude=%f&current_weather=true", lat, lon)
 
 	resp, err := http.Get(url)
@@ -51,7 +63,10 @@ func (p *WeatherProxy) FetchWeather(lat, lon float64) (*OpenMeteoResponse, error
 		return nil, err
 	}
 
-	return &result, nil
+	return &WeatherData{
+		Temperature: result.CurrentWeather.Temperature,
+		WeatherCode: result.CurrentWeather.WeatherCode,
+	}, nil
 }
 
 // weatherCodeToDescription converts Open-Meteo weather code to description
@@ -76,7 +91,8 @@ func weatherCodeToDescription(code int) string {
 	}
 }
 
-var proxy = &WeatherProxy{}
+// weatherService uses the Proxy pattern - OpenMeteoProxy controls access to external API
+var weatherService WeatherService = &OpenMeteoProxy{}
 var db *gorm.DB
 
 // initDB initializes the database and loads initial data
@@ -130,15 +146,15 @@ func getWeather(c echo.Context) error {
 	}
 
 	// Fetch weather from external API via proxy
-	data, err := proxy.FetchWeather(city.Latitude, city.Longitude)
+	data, err := weatherService.GetWeather(city.Latitude, city.Longitude)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
 	}
 
 	weather := WeatherResponse{
 		City:        city.City,
-		Temperature: data.CurrentWeather.Temperature,
-		Description: weatherCodeToDescription(data.CurrentWeather.WeatherCode),
+		Temperature: data.Temperature,
+		Description: weatherCodeToDescription(data.WeatherCode),
 	}
 
 	return c.JSON(http.StatusOK, weather)
