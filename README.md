@@ -72,3 +72,22 @@ zewnętrznego podczas zapytania do naszego kontrolera - [link do commita](https:
 
 :white_check_mark: 5.0 Należy rozszerzyć endpoint na więcej niż jedną lokalizację
 (Pogoda), lub akcje (Giełda) zwracając JSONa - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/e3c864408cabd31790231e4fb5ad3b403fc03bd1)
+
+**Zadanie 5** Wzorce behawioralne
+
+:white_check_mark: 3.0 W ramach projektu należy stworzyć komponenty Produkty oraz
+Płatności; komponent Produkty powinien pobierać listę produktów z
+aplikacji serwerowej, natomiast komponent Płatności powinien wysyłać
+dane płatności do aplikacji serwerowej. - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/22debf5)
+
+:white_check_mark: 3.5 Należy dodać komponent Koszyk wraz z osobnym widokiem; aplikacja powinna umożliwiać przechodzenie pomiędzy widokami przy użyciu routingu. - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/51bc0fa)
+
+:white_check_mark: 4.0 Dane pomiędzy komponentami, takimi jak Produkty, Koszyk i Płatności, powinny być przekazywane z wykorzystaniem React hooks, np. useState, useEffect lub useContext. - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/c1e129d)
+
+:white_check_mark: 4.5 Należy przygotować konfigurację umożliwiającą uruchomienie
+aplikacji klienckiej oraz serwerowej w kontenerach Docker za pomocą
+docker-compose. - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/756d429)
+
+:white_check_mark: 5.0 Należy wykorzystać bibliotekę axios do komunikacji z serwerem oraz
+skonfigurować obsługę CORS, aby frontend mógł poprawnie komunikować
+się z backendem. - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/d535e04)
