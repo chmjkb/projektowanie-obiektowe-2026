@@ -1,12 +1,7 @@
-import { useState } from 'react'
-import type { Product } from '../types'
-
-type CartItem = { product: Product; quantity: number }
+import { useCart } from '../context/CartContext'
 
 export function Cart() {
-  const [items] = useState<CartItem[]>([])
-
-  const total = items.reduce((s, i) => s + i.product.price * i.quantity, 0)
+  const { items, remove, clear, total } = useCart()
 
   return (
     <section>
@@ -14,13 +9,22 @@ export function Cart() {
       {items.length === 0 ? (
         <p>Koszyk jest pusty.</p>
       ) : (
-        <ul>
-          {items.map((i) => (
-            <li key={i.product.id}>
-              {i.product.name} × {i.quantity} = {(i.product.price * i.quantity).toFixed(2)} zł
-            </li>
-          ))}
-        </ul>
+        <>
+          <ul>
+            {items.map((i) => (
+              <li key={i.product.id}>
+                {i.product.name} × {i.quantity} ={' '}
+                {(i.product.price * i.quantity).toFixed(2)} zł{' '}
+                <button type="button" onClick={() => remove(i.product.id)}>
+                  Usuń
+                </button>
+              </li>
+            ))}
+          </ul>
+          <button type="button" onClick={clear}>
+            Wyczyść koszyk
+          </button>
+        </>
       )}
       <p>
         <strong>Suma: {total.toFixed(2)} zł</strong>
