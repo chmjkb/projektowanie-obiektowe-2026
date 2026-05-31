@@ -21,8 +21,9 @@ export function Payments() {
       })
       setStatus(`Zapłacono: ${payment.customer_name} — ${payment.total.toFixed(2)} zł`)
       clear()
-    } catch (err) {
-      setStatus(`Błąd: ${(err as Error).message}`)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err)
+      setStatus(`Błąd: ${message}`)
     }
   }
 

@@ -11,7 +11,7 @@ export function Products() {
   useEffect(() => {
     fetchProducts()
       .then(setProducts)
-      .catch((e: Error) => setError(e.message))
+      .catch((e: unknown) => setError(e instanceof Error ? e.message : String(e)))
   }, [])
 
   if (error) return <p>Błąd: {error}</p>
