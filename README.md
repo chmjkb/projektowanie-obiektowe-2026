@@ -109,4 +109,4 @@ Należy sprawdzić kod projektów JS 3.0, 3.5, 4.0, kotlin, go, js - 4.5, 5.0.
 
 :white_check_mark: 4.5 Należy usunąć problemy typu Code Smell w kodzie w Sonarze (kotlin, go, js). Należy dodać badge z Sonara - badge widoczny u góry README; naprawione: `AuthService` jako `object` (Kotlin), `WeatherService` → `WeatherFetcher` zgodnie z konwencją Go, readonly props w `CartProvider` (React/TS) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/PENDING_4_5)
 
-:black_square_button: 5.0 Skonfigurować Github Actions z linterem oraz CodeQL
+:white_check_mark: 5.0 Skonfigurować Github Actions z linterem oraz CodeQL - workflowy `.github/workflows/lint.yml` (ESLint na LAB5/frontend) oraz `.github/workflows/codeql.yml` (Go + JS/TS) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/PENDING_5_0)
