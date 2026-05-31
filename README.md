@@ -100,7 +100,7 @@ Należy sprawdzić kod projektów JS 3.0, 3.5, 4.0, kotlin, go, js - 4.5, 5.0.
 
 :white_check_mark: 3.5 Należy wyeliminować wszystkie bugi w kodzie w Sonarze (kod aplikacji klienckiej) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/PENDING_3_5)
 
-:black_square_button: 4.0 Przeskanować oraz naprawić dowolny projekt open source narzędziem CodeQL https://codeql.github.com/
+:white_check_mark: 4.0 Przeskanować oraz naprawić dowolny projekt open source narzędziem CodeQL https://codeql.github.com/ - skan tego repozytorium (Go + JS/TS), naprawione: brak timeoutu HTTP, nieobsłużone błędy `AutoMigrate`/`Create`/`Body.Close` w LAB4 - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/PENDING_4_0)
 
 :black_square_button: 4.5 Należy usunąć problemy typu Code Smell w kodzie w Sonarze (kotlin, go, js). Należy dodać badge z Sonara
 

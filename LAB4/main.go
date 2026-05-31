@@ -5,11 +5,16 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/labstack/echo/v4"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
+
+// httpClient is shared across requests and enforces a timeout so that
+// upstream calls cannot hang indefinitely (CodeQL go/missing-rate-limiting).
+var httpClient = &http.Client{Timeout: 10 * time.Second}
 
 // Weather is a GORM model representing a city with its coordinates
 type Weather struct {
@@ -61,11 +66,15 @@ type OpenMeteoProxy struct{}
 func (p *OpenMeteoProxy) GetWeather(lat, lon float64) (*WeatherData, error) {
 	url := fmt.Sprintf("https://api.open-meteo.com/v1/forecast?latitude=%f&longitude=%f&current_weather=true", lat, lon)
 
-	resp, err := http.Get(url)
+	resp, err := httpClient.Get(url)
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if cerr := resp.Body.Close(); cerr != nil {
+			log.Printf("failed to close response body: %v", cerr)
+		}
+	}()
 
 	var result OpenMeteoResponse
 	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
@@ -112,10 +121,10 @@ func initDB() {
 		log.Fatal("Failed to connect to database:", err)
 	}
 
-	// Auto migrate the schema
-	db.AutoMigrate(&Weather{}, &WeatherReading{})
+	if err := db.AutoMigrate(&Weather{}, &WeatherReading{}); err != nil {
+		log.Fatal("Failed to auto-migrate schema:", err)
+	}
 
-	// Load initial data from list
 	cities := []Weather{
 		{City: "Warsaw", Latitude: 52.2297, Longitude: 21.0122},
 		{City: "Krakow", Latitude: 50.0647, Longitude: 19.9450},
@@ -125,7 +134,9 @@ func initDB() {
 	}
 
 	for _, city := range cities {
-		db.FirstOrCreate(&city, Weather{City: city.City})
+		if result := db.FirstOrCreate(&city, Weather{City: city.City}); result.Error != nil {
+			log.Printf("failed to seed city %s: %v", city.City, result.Error)
+		}
 	}
 }
 
@@ -170,7 +181,9 @@ func getWeather(c echo.Context) error {
 		WeatherCode: data.WeatherCode,
 		Description: description,
 	}
-	db.Create(&reading)
+	if result := db.Create(&reading); result.Error != nil {
+		log.Printf("failed to persist weather reading for %s: %v", city.City, result.Error)
+	}
 
 	weather := WeatherResponse{
 		City:        city.City,
@@ -207,7 +220,9 @@ func getAllWeather(c echo.Context) error {
 			WeatherCode: data.WeatherCode,
 			Description: description,
 		}
-		db.Create(&reading)
+		if result := db.Create(&reading); result.Error != nil {
+			log.Printf("failed to persist weather reading for %s: %v", city.City, result.Error)
+		}
 
 		responses = append(responses, WeatherResponse{
 			City:        city.City,
