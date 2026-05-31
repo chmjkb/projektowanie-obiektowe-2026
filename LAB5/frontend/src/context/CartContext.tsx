@@ -1,20 +1,9 @@
-import { createContext, useCallback, useContext, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { Product } from '../types'
+import { CartContext, type CartItem } from './useCart'
 
-export type CartItem = { product: Product; quantity: number }
-
-type CartContextValue = {
-  items: CartItem[]
-  add: (product: Product) => void
-  remove: (productId: number) => void
-  clear: () => void
-  total: number
-}
-
-const CartContext = createContext<CartContextValue | null>(null)
-
-export function CartProvider({ children }: { children: ReactNode }) {
+export function CartProvider({ children }: Readonly<{ children: ReactNode }>) {
   const [items, setItems] = useState<CartItem[]>([])
 
   const add = useCallback((product: Product) => {
@@ -46,10 +35,4 @@ export function CartProvider({ children }: { children: ReactNode }) {
   )
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
-}
-
-export function useCart(): CartContextValue {
-  const ctx = useContext(CartContext)
-  if (!ctx) throw new Error('useCart must be used inside CartProvider')
-  return ctx
 }

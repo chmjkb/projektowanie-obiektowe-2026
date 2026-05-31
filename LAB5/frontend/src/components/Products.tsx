@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { fetchProducts } from '../api'
-import { useCart } from '../context/CartContext'
+import { useCart } from '../context/useCart'
 import type { Product } from '../types'
 
 export function Products() {

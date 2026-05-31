@@ -46,8 +46,9 @@ type WeatherData struct {
 	WeatherCode int
 }
 
-// WeatherService is an interface for fetching weather data (Proxy pattern)
-type WeatherService interface {
+// WeatherFetcher is an interface for fetching weather data (Proxy pattern).
+// Go convention: single-method interfaces end with -er.
+type WeatherFetcher interface {
 	GetWeather(lat, lon float64) (*WeatherData, error)
 }
 
@@ -60,7 +61,7 @@ type OpenMeteoResponse struct {
 }
 
 // OpenMeteoProxy is a proxy that fetches weather data from external Open-Meteo API
-// It implements the WeatherService interface (Proxy structural pattern)
+// It implements the WeatherFetcher interface (Proxy structural pattern)
 type OpenMeteoProxy struct{}
 
 func (p *OpenMeteoProxy) GetWeather(lat, lon float64) (*WeatherData, error) {
@@ -110,7 +111,7 @@ func weatherCodeToDescription(code int) string {
 }
 
 // weatherService uses the Proxy pattern - OpenMeteoProxy controls access to external API
-var weatherService WeatherService = &OpenMeteoProxy{}
+var weatherService WeatherFetcher = &OpenMeteoProxy{}
 var db *gorm.DB
 
 // initDB initializes the database and loads initial data

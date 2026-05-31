@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration
 class AppConfig {
 
     @Bean("eagerAuthService")
-    fun authService(): AuthService = AuthService.instance
+    fun authService(): AuthService = AuthService
 
     @Bean("lazyAuthService")
     fun lazyAuthService(): LazyAuthService = LazyAuthService.instance

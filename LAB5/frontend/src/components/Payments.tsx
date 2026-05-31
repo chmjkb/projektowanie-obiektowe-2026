@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { postPayment } from '../api'
-import { useCart } from '../context/CartContext'
+import { useCart } from '../context/useCart'
 
 export function Payments() {
   const { items, total, clear } = useCart()

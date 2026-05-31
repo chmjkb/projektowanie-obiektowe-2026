@@ -1,4 +1,9 @@
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=chmjkb_projektowanie-obiektowe-2026&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=chmjkb_projektowanie-obiektowe-2026)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=chmjkb_projektowanie-obiektowe-2026&metric=bugs)](https://sonarcloud.io/summary/new_code?id=chmjkb_projektowanie-obiektowe-2026)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=chmjkb_projektowanie-obiektowe-2026&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=chmjkb_projektowanie-obiektowe-2026)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=chmjkb_projektowanie-obiektowe-2026&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=chmjkb_projektowanie-obiektowe-2026)
+
 **Zadanie 1** Pascal
 
 :white_check_mark: 3.0 Procedura do generowania 50 losowych liczb od 0 do 100 [Link do commita 1](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/c14c341562c4f7749b4fe018d804e4d3c1dd2043)
@@ -102,6 +107,6 @@ Należy sprawdzić kod projektów JS 3.0, 3.5, 4.0, kotlin, go, js - 4.5, 5.0.
 
 :white_check_mark: 4.0 Przeskanować oraz naprawić dowolny projekt open source narzędziem CodeQL https://codeql.github.com/ - skan tego repozytorium (Go + JS/TS), naprawione: brak timeoutu HTTP, nieobsłużone błędy `AutoMigrate`/`Create`/`Body.Close` w LAB4 - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/PENDING_4_0)
 
-:black_square_button: 4.5 Należy usunąć problemy typu Code Smell w kodzie w Sonarze (kotlin, go, js). Należy dodać badge z Sonara
+:white_check_mark: 4.5 Należy usunąć problemy typu Code Smell w kodzie w Sonarze (kotlin, go, js). Należy dodać badge z Sonara - badge widoczny u góry README; naprawione: `AuthService` jako `object` (Kotlin), `WeatherService` → `WeatherFetcher` zgodnie z konwencją Go, readonly props w `CartProvider` (React/TS) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/PENDING_4_5)
 
 :black_square_button: 5.0 Skonfigurować Github Actions z linterem oraz CodeQL
