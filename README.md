@@ -91,3 +91,17 @@ docker-compose. - [link do commita](https://github.com/chmjkb/projektowanie-obie
 :white_check_mark: 5.0 Należy wykorzystać bibliotekę axios do komunikacji z serwerem oraz
 skonfigurować obsługę CORS, aby frontend mógł poprawnie komunikować
 się z backendem. - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/d535e04)
+
+**Zadanie 8** Zapaszki
+
+Należy sprawdzić kod projektów JS 3.0, 3.5, 4.0, kotlin, go, js - 4.5, 5.0.
+
+:white_check_mark: 3.0 Należy skonfigurować husky + lint-staged uruchamianie lintowania przed commitem - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/PENDING_3_0)
+
+:black_square_button: 3.5 Należy wyeliminować wszystkie bugi w kodzie w Sonarze (kod aplikacji klienckiej)
+
+:black_square_button: 4.0 Przeskanować oraz naprawić dowolny projekt open source narzędziem CodeQL https://codeql.github.com/
+
+:black_square_button: 4.5 Należy usunąć problemy typu Code Smell w kodzie w Sonarze (kotlin, go, js). Należy dodać badge z Sonara
+
+:black_square_button: 5.0 Skonfigurować Github Actions z linterem oraz CodeQL
