@@ -101,12 +101,12 @@ się z backendem. - [link do commita](https://github.com/chmjkb/projektowanie-ob
 
 Należy sprawdzić kod projektów JS 3.0, 3.5, 4.0, kotlin, go, js - 4.5, 5.0.
 
-:white_check_mark: 3.0 Należy skonfigurować husky + lint-staged uruchamianie lintowania przed commitem - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/PENDING_3_0)
+:white_check_mark: 3.0 Należy skonfigurować husky + lint-staged uruchamianie lintowania przed commitem - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/375700f)
 
-:white_check_mark: 3.5 Należy wyeliminować wszystkie bugi w kodzie w Sonarze (kod aplikacji klienckiej) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/PENDING_3_5)
+:white_check_mark: 3.5 Należy wyeliminować wszystkie bugi w kodzie w Sonarze (kod aplikacji klienckiej) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/87fc2ff)
 
-:white_check_mark: 4.0 Przeskanować oraz naprawić dowolny projekt open source narzędziem CodeQL https://codeql.github.com/ - skan tego repozytorium (Go + JS/TS), naprawione: brak timeoutu HTTP, nieobsłużone błędy `AutoMigrate`/`Create`/`Body.Close` w LAB4 - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/PENDING_4_0)
+:white_check_mark: 4.0 Przeskanować oraz naprawić dowolny projekt open source narzędziem CodeQL https://codeql.github.com/ - skan tego repozytorium (Go + JS/TS), naprawione: brak timeoutu HTTP, nieobsłużone błędy `AutoMigrate`/`Create`/`Body.Close` w LAB4 - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/e133224)
 
-:white_check_mark: 4.5 Należy usunąć problemy typu Code Smell w kodzie w Sonarze (kotlin, go, js). Należy dodać badge z Sonara - badge widoczny u góry README; naprawione: `AuthService` jako `object` (Kotlin), `WeatherService` → `WeatherFetcher` zgodnie z konwencją Go, readonly props w `CartProvider` (React/TS) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/PENDING_4_5)
+:white_check_mark: 4.5 Należy usunąć problemy typu Code Smell w kodzie w Sonarze (kotlin, go, js). Należy dodać badge z Sonara - badge widoczny u góry README; naprawione: `AuthService` jako `object` (Kotlin), `WeatherService` → `WeatherFetcher` zgodnie z konwencją Go, readonly props w `CartProvider` (React/TS) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/f6e46c6)
 
-:white_check_mark: 5.0 Skonfigurować Github Actions z linterem oraz CodeQL - workflowy `.github/workflows/lint.yml` (ESLint na LAB5/frontend) oraz `.github/workflows/codeql.yml` (Go + JS/TS) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/PENDING_5_0)
+:white_check_mark: 5.0 Skonfigurować Github Actions z linterem oraz CodeQL - workflowy `.github/workflows/lint.yml` (ESLint na LAB5/frontend) oraz `.github/workflows/codeql.yml` (Go + JS/TS) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/7a295cf)
