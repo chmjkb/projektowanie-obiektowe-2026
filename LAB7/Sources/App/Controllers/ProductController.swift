@@ -15,42 +15,88 @@ struct ProductController: RouteCollection {
         }
     }
 
+    struct ProductRow: Content {
+        let id: UUID
+        let name: String
+        let price: Double
+        let description: String
+        let categoryID: UUID?
+        let categoryName: String?
+    }
+
     struct IndexContext: Content {
-        let products: [Product]
+        let products: [ProductRow]
     }
 
     struct ShowContext: Content {
-        let product: Product
+        let product: ProductRow
     }
 
     struct FormContext: Content {
-        let product: Product?
+        let product: ProductRow?
         let action: String
         let title: String
+        let categories: [Category]
+    }
+
+    private func row(from product: Product) -> ProductRow {
+        ProductRow(
+            id: product.id!,
+            name: product.name,
+            price: product.price,
+            description: product.description,
+            categoryID: product.$category.id,
+            categoryName: product.category?.name
+        )
     }
 
     func index(req: Request) async throws -> View {
-        let products = try await Product.query(on: req.db).all()
-        return try await req.view.render("products/index", IndexContext(products: products))
+        let products = try await Product.query(on: req.db)
+            .with(\.$category)
+            .all()
+        return try await req.view.render(
+            "products/index",
+            IndexContext(products: products.map(row))
+        )
     }
 
     func newForm(req: Request) async throws -> View {
-        let ctx = FormContext(product: nil, action: "/products", title: "Nowy produkt")
+        let categories = try await Category.query(on: req.db).all()
+        let ctx = FormContext(
+            product: nil,
+            action: "/products",
+            title: "Nowy produkt",
+            categories: categories
+        )
         return try await req.view.render("products/form", ctx)
     }
 
     func show(req: Request) async throws -> View {
-        guard let product = try await Product.find(req.parameters.get("productID"), on: req.db) else {
+        guard let product = try await Product.query(on: req.db)
+            .filter(\.$id == req.parameters.get("productID")!)
+            .with(\.$category)
+            .first()
+        else {
             throw Abort(.notFound)
         }
-        return try await req.view.render("products/show", ShowContext(product: product))
+        return try await req.view.render("products/show", ShowContext(product: row(from: product)))
     }
 
     func editForm(req: Request) async throws -> View {
-        guard let product = try await Product.find(req.parameters.get("productID"), on: req.db) else {
+        guard let product = try await Product.query(on: req.db)
+            .filter(\.$id == req.parameters.get("productID")!)
+            .with(\.$category)
+            .first()
+        else {
             throw Abort(.notFound)
         }
-        let ctx = FormContext(product: product, action: "/products/\(product.id!)", title: "Edycja produktu")
+        let categories = try await Category.query(on: req.db).all()
+        let ctx = FormContext(
+            product: row(from: product),
+            action: "/products/\(product.id!)",
+            title: "Edycja produktu",
+            categories: categories
+        )
         return try await req.view.render("products/form", ctx)
     }
 
@@ -69,6 +115,7 @@ struct ProductController: RouteCollection {
         product.name = dto.name
         product.price = dto.price
         product.description = dto.description
+        product.$category.id = dto.categoryID
         try await product.save(on: req.db)
         return req.redirect(to: "/products/\(product.id!)")
     }

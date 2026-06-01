@@ -1,0 +1,24 @@
+#extend("base"):
+    #export("body"):
+        <h2>Kategoria: #(category.name)</h2>
+
+        <h3>Produkty w kategorii</h3>
+        #if(count(products) == 0):
+            <p>Brak produktów w tej kategorii.</p>
+        #else:
+            <ul>
+                #for(p in products):
+                    <li><a href="/products/#(p.id)">#(p.name)</a> — #(p.price) zł</li>
+                #endfor
+            </ul>
+        #endif
+
+        <div class="actions">
+            <a href="/categories/#(category.id)/edit">Edytuj</a>
+            <form class="inline" method="post" action="/categories/#(category.id)/delete" onsubmit="return confirm('Usunąć kategorię?')">
+                <button type="submit">Usuń</button>
+            </form>
+            <a href="/categories">Powrót do listy</a>
+        </div>
+    #endexport
+#endextend

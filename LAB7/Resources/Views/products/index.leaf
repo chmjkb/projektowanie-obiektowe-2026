@@ -11,6 +11,7 @@
                     <tr>
                         <th>Nazwa</th>
                         <th>Cena</th>
+                        <th>Kategoria</th>
                         <th>Akcje</th>
                     </tr>
                 </thead>
@@ -19,6 +20,7 @@
                         <tr>
                             <td><a href="/products/#(p.id)">#(p.name)</a></td>
                             <td>#(p.price) zł</td>
+                            <td>#(p.categoryName)</td>
                             <td>
                                 <a href="/products/#(p.id)/edit">Edytuj</a>
                                 <form class="inline" method="post" action="/products/#(p.id)/delete" onsubmit="return confirm('Usunąć produkt?')">

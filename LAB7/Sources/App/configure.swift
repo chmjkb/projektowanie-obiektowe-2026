@@ -7,6 +7,8 @@ public func configure(_ app: Application) async throws {
     app.databases.use(.sqlite(.file("db.sqlite")), as: .sqlite)
 
     app.migrations.add(CreateProduct())
+    app.migrations.add(CreateCategory())
+    app.migrations.add(AddCategoryToProduct())
     try await app.autoMigrate()
 
     app.views.use(.leaf)

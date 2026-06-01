@@ -11,6 +11,14 @@
             <label for="description">Opis</label>
             <textarea id="description" name="description" rows="4" required>#(product.description)</textarea>
 
+            <label for="categoryID">Kategoria</label>
+            <select id="categoryID" name="categoryID">
+                <option value="">(brak)</option>
+                #for(c in categories):
+                    <option value="#(c.id)" #if(product.categoryID == c.id):selected#endif>#(c.name)</option>
+                #endfor
+            </select>
+
             <div class="actions">
                 <button type="submit">Zapisz</button>
                 <a href="/products">Anuluj</a>

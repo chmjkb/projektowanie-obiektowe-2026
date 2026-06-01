@@ -1,0 +1,32 @@
+#extend("base"):
+    #export("body"):
+        <h2>Kategorie</h2>
+        <p><a href="/categories/new">+ Nowa kategoria</a></p>
+
+        #if(count(categories) == 0):
+            <p>Brak kategorii.</p>
+        #else:
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    #for(c in categories):
+                        <tr>
+                            <td><a href="/categories/#(c.id)">#(c.name)</a></td>
+                            <td>
+                                <a href="/categories/#(c.id)/edit">Edytuj</a>
+                                <form class="inline" method="post" action="/categories/#(c.id)/delete" onsubmit="return confirm('Usunąć kategorię?')">
+                                    <button type="submit">Usuń</button>
+                                </form>
+                            </td>
+                        </tr>
+                    #endfor
+                </tbody>
+            </table>
+        #endif
+    #endexport
+#endextend

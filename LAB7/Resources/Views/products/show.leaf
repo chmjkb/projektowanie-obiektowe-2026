@@ -3,6 +3,13 @@
         <h2>#(product.name)</h2>
         <p><strong>Cena:</strong> #(product.price) zł</p>
         <p><strong>Opis:</strong> #(product.description)</p>
+        <p><strong>Kategoria:</strong>
+            #if(product.categoryID):
+                <a href="/categories/#(product.categoryID)">#(product.categoryName)</a>
+            #else:
+                (brak)
+            #endif
+        </p>
 
         <div class="actions">
             <a href="/products/#(product.id)/edit">Edytuj</a>
