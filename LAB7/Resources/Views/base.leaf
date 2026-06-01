@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>#(title) — LAB7</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+        nav a { margin-right: 1rem; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: .5rem; text-align: left; }
+        form.inline { display: inline; }
+        .actions { margin-top: 1rem; }
+        .actions a, .actions button { margin-right: .5rem; }
+        label { display: block; margin: .5rem 0 .25rem; font-weight: bold; }
+        input, textarea, select { width: 100%; padding: .4rem; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+    <h1>LAB7 — Vapor + Fluent + Leaf</h1>
+    <nav>
+        <a href="/">Strona główna</a>
+        <a href="/products">Produkty</a>
+    </nav>
+    <hr>
+    #import("body")
+</body>
+</html>

@@ -1,0 +1,34 @@
+#extend("base"):
+    #export("body"):
+        <h2>Produkty</h2>
+        <p><a href="/products/new">+ Nowy produkt</a></p>
+
+        #if(count(products) == 0):
+            <p>Brak produktów.</p>
+        #else:
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>Cena</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    #for(p in products):
+                        <tr>
+                            <td><a href="/products/#(p.id)">#(p.name)</a></td>
+                            <td>#(p.price) zł</td>
+                            <td>
+                                <a href="/products/#(p.id)/edit">Edytuj</a>
+                                <form class="inline" method="post" action="/products/#(p.id)/delete" onsubmit="return confirm('Usunąć produkt?')">
+                                    <button type="submit">Usuń</button>
+                                </form>
+                            </td>
+                        </tr>
+                    #endfor
+                </tbody>
+            </table>
+        #endif
+    #endexport
+#endextend

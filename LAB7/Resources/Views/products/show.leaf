@@ -1,0 +1,15 @@
+#extend("base"):
+    #export("body"):
+        <h2>#(product.name)</h2>
+        <p><strong>Cena:</strong> #(product.price) zł</p>
+        <p><strong>Opis:</strong> #(product.description)</p>
+
+        <div class="actions">
+            <a href="/products/#(product.id)/edit">Edytuj</a>
+            <form class="inline" method="post" action="/products/#(product.id)/delete" onsubmit="return confirm('Usunąć produkt?')">
+                <button type="submit">Usuń</button>
+            </form>
+            <a href="/products">Powrót do listy</a>
+        </div>
+    #endexport
+#endextend
