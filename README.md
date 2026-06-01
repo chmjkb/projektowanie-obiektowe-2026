@@ -110,3 +110,19 @@ Należy sprawdzić kod projektów JS 3.0, 3.5, 4.0, kotlin, go, js - 4.5, 5.0.
 :white_check_mark: 4.5 Należy usunąć problemy typu Code Smell w kodzie w Sonarze (kotlin, go, js). Należy dodać badge z Sonara - badge widoczny u góry README; naprawione: `AuthService` jako `object` (Kotlin), `WeatherService` → `WeatherFetcher` zgodnie z konwencją Go, readonly props w `CartProvider` (React/TS) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/f6e46c6)
 
 :white_check_mark: 5.0 Skonfigurować Github Actions z linterem oraz CodeQL - workflowy `.github/workflows/lint.yml` (ESLint na LAB5/frontend) oraz `.github/workflows/codeql.yml` (Go + JS/TS) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/7a295cf)
+
+**Zadanie 9** Vapor (Swift) — Fluent + Leaf + Redis
+
+Aplikacja w Vaporze wykorzystująca Leaf jako silnik szablonów oraz
+Fluent jako ORM. Trzy modele oraz CRUD dla każdego z nich, model
+z minimum jedną relacją, CRUD odzwierciedlony w szablonach.
+
+:white_check_mark: 9.3.0 Kontroler wraz z modelem Produktów zgodny z CRUD w ORM Fluent - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/bd671f7)
+
+:white_check_mark: 9.3.5 Szablony w Leaf dla CRUD produktów - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/2fa76f2)
+
+:white_check_mark: 9.4.0 Drugi model oraz kontroler Kategorii wraz z relacją Parent/Children - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/c54b17a)
+
+:white_check_mark: 9.4.5 Wykorzystanie Redis do przechowywania (cache listy produktów z TTL 60s) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/624b0ae)
+
+:white_check_mark: 9.5.0 Konfiguracja deploymentu na Heroku (Procfile, app.json, buildpack) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/71fab09)
