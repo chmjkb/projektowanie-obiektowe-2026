@@ -35,3 +35,29 @@ Aplikacja wystartuje na `http://localhost:8080`.
 
 Lista produktów jest cache'owana w Redisie na 60s i automatycznie
 unieważniana przy create / update / delete.
+
+## Deployment na Heroku
+
+Pliki konfiguracyjne:
+
+- `Procfile` — komenda startowa dla dyno `web`
+- `.swift-version` — wersja Swifta dla buildpacka
+- `app.json` — manifest aplikacji (buildpack `vapor-community/heroku-buildpack`,
+  addon `heroku-redis:mini`)
+
+Kroki deploymentu (z poziomu katalogu `LAB7/`):
+
+```bash
+heroku create lab7-vapor --stack heroku-22 \
+  --buildpack https://github.com/vapor-community/heroku-buildpack
+heroku addons:create heroku-redis:mini
+git subtree push --prefix LAB7 heroku main
+heroku ps:scale web=1
+heroku open
+```
+
+> **Uwaga:** SQLite działa na efemerycznym dysku dyno - dane przepadają
+> przy każdym restarcie. Dla realnej produkcji należy dodać addon
+> `heroku-postgresql` oraz `FluentPostgresDriver` i przełączyć
+> `configure.swift` na sterownik Postgres, gdy obecna jest zmienna
+> `DATABASE_URL`.

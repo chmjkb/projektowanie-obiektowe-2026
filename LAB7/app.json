@@ -1,0 +1,25 @@
+{
+  "name": "lab7-vapor",
+  "description": "LAB7 — Vapor + Fluent + Leaf + Redis",
+  "stack": "heroku-22",
+  "buildpacks": [
+    {
+      "url": "https://github.com/vapor-community/heroku-buildpack"
+    }
+  ],
+  "addons": [
+    "heroku-redis:mini"
+  ],
+  "env": {
+    "REDIS_URL": {
+      "description": "Automatycznie ustawiane przez addon heroku-redis",
+      "required": false
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  }
+}
