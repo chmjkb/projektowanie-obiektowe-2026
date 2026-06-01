@@ -50,14 +50,25 @@ struct ProductController: RouteCollection {
         )
     }
 
+    private static let listCacheKey = "products:list"
+    private static let cacheTTL: CacheExpirationTime = .seconds(60)
+
     func index(req: Request) async throws -> View {
+        if let cached = try? await req.cache.get(Self.listCacheKey, as: [ProductRow].self) {
+            req.logger.debug("products:list served from Redis cache")
+            return try await req.view.render("products/index", IndexContext(products: cached))
+        }
+
         let products = try await Product.query(on: req.db)
             .with(\.$category)
             .all()
-        return try await req.view.render(
-            "products/index",
-            IndexContext(products: products.map(row))
-        )
+        let rows = products.map(row)
+        try? await req.cache.set(Self.listCacheKey, to: rows, expiresIn: Self.cacheTTL)
+        return try await req.view.render("products/index", IndexContext(products: rows))
+    }
+
+    private func invalidateListCache(req: Request) async {
+        try? await req.cache.delete(Self.listCacheKey)
     }
 
     func newForm(req: Request) async throws -> View {
@@ -104,6 +115,7 @@ struct ProductController: RouteCollection {
         let dto = try req.content.decode(ProductDTO.self)
         let product = dto.toModel()
         try await product.save(on: req.db)
+        await invalidateListCache(req: req)
         return req.redirect(to: "/products")
     }
 
@@ -117,6 +129,7 @@ struct ProductController: RouteCollection {
         product.description = dto.description
         product.$category.id = dto.categoryID
         try await product.save(on: req.db)
+        await invalidateListCache(req: req)
         return req.redirect(to: "/products/\(product.id!)")
     }
 
@@ -125,6 +138,7 @@ struct ProductController: RouteCollection {
             throw Abort(.notFound)
         }
         try await product.delete(on: req.db)
+        await invalidateListCache(req: req)
         return req.redirect(to: "/products")
     }
 }
