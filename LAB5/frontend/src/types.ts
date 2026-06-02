@@ -14,3 +14,15 @@ export type Payment = {
   items: PaymentItem[]
   total: number
 }
+
+export type RegisterRequest = {
+  username: string
+  email: string
+  password: string
+}
+
+export type User = {
+  id: number
+  username: string
+  email: string
+}

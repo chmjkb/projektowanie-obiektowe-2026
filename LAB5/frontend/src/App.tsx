@@ -2,6 +2,7 @@ import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import { Cart } from './components/Cart'
 import { Payments } from './components/Payments'
 import { Products } from './components/Products'
+import { Register } from './components/Register'
 import { CartProvider } from './context/CartContext'
 import './App.css'
 
@@ -15,11 +16,13 @@ function App() {
             <Link to="/">Produkty</Link>
             <Link to="/cart">Koszyk</Link>
             <Link to="/payments">Płatności</Link>
+            <Link to="/register">Rejestracja</Link>
           </nav>
           <Routes>
             <Route path="/" element={<Products />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/payments" element={<Payments />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </main>
       </Router>
