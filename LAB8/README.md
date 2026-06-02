@@ -46,3 +46,17 @@ i `BACKEND_URL`.
 | `test_xss.py` | 10.3.5 | Próby wstrzyknięcia XSS - potwierdzają, że React escape'uje wartości w JSX |
 | `test_cart_multitab.py` | 10.4.0 | Synchronizacja koszyka między kartami (localStorage + zdarzenie `storage`) |
 | `test_csrf.py` | 10.4.5 | Demo podatności CSRF endpointu `/me/email` (brak tokenu CSRF) |
+
+## Uruchomienie testów Playwright (zadanie 10.5.0)
+
+```bash
+cd LAB8/playwright
+yarn install
+yarn exec playwright install chromium
+yarn test
+```
+
+Pełny scenariusz E2E w `tests/shop.spec.ts` zawiera 56 asercji
+obejmujących: nawigację, listę produktów, walidację rejestracji, login,
+zmianę emaila, dodawanie do koszyka, synchronizację między kartami,
+płatność, weryfikację escape'owania XSS oraz wylogowanie.
