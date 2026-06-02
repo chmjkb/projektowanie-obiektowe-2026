@@ -44,3 +44,4 @@ i `BACKEND_URL`.
 |------|---------|------------|
 | `test_registration.py` | 10.3.0 | Walidacja pól obowiązkowych i formatu e-maila w formularzu rejestracji |
 | `test_xss.py` | 10.3.5 | Próby wstrzyknięcia XSS - potwierdzają, że React escape'uje wartości w JSX |
+| `test_cart_multitab.py` | 10.4.0 | Synchronizacja koszyka między kartami (localStorage + zdarzenie `storage`) |
