@@ -126,3 +126,15 @@ z minimum jedną relacją, CRUD odzwierciedlony w szablonach.
 :white_check_mark: 9.4.5 Wykorzystanie Redis do przechowywania (cache listy produktów z TTL 60s) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/624b0ae)
 
 :white_check_mark: 9.5.0 Konfiguracja deploymentu na Heroku (Procfile, app.json, buildpack) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/71fab09)
+
+**Zadanie 10** Selenium/WebDriver + Playwright (testy aplikacji LAB5)
+
+:white_check_mark: 10.3.0 Testy walidacji pól obowiązkowych i formatu adresu e-mail w formularzu rejestracji - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/3870c3e)
+
+:white_check_mark: 10.3.5 Testy bezpieczeństwa XSS - próby wstrzyknięcia JavaScriptu w aplikacji React - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/ab24e4d)
+
+:white_check_mark: 10.4.0 Testy koszyka zakupowego przy otwarciu aplikacji w kilku kartach przeglądarki - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/41cdb2a)
+
+:white_check_mark: 10.4.5 Formularz logowania + testy podatności CSRF (zmiana ustawień konta spreparowanym linkiem) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/1a7892c)
+
+:white_check_mark: 10.5.0 Scenariusz End-to-End w Playwright (56 asercji) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/0f0248b)
