@@ -1,5 +1,7 @@
 import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+import { Account } from './components/Account'
 import { Cart } from './components/Cart'
+import { Login } from './components/Login'
 import { Payments } from './components/Payments'
 import { Products } from './components/Products'
 import { Register } from './components/Register'
@@ -17,12 +19,16 @@ function App() {
             <Link to="/cart">Koszyk</Link>
             <Link to="/payments">Płatności</Link>
             <Link to="/register">Rejestracja</Link>
+            <Link to="/login">Logowanie</Link>
+            <Link to="/account">Konto</Link>
           </nav>
           <Routes>
             <Route path="/" element={<Products />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/payments" element={<Payments />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/account" element={<Account />} />
           </Routes>
         </main>
       </Router>

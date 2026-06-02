@@ -23,3 +23,26 @@ export async function registerUser(payload: RegisterRequest): Promise<User> {
   const res = await api.post<User>('/register', payload)
   return res.data
 }
+
+export async function loginUser(payload: { username: string; password: string }): Promise<User> {
+  const res = await api.post<User>('/login', payload)
+  return res.data
+}
+
+export async function fetchMe(): Promise<User | null> {
+  try {
+    const res = await api.get<User>('/me')
+    return res.data
+  } catch {
+    return null
+  }
+}
+
+export async function changeEmail(email: string): Promise<User> {
+  const res = await api.post<User>('/me/email', { email })
+  return res.data
+}
+
+export async function logoutUser(): Promise<void> {
+  await api.post('/logout')
+}
