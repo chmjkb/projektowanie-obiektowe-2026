@@ -43,3 +43,4 @@ i `BACKEND_URL`.
 | Plik | Zadanie | Co testuje |
 |------|---------|------------|
 | `test_registration.py` | 10.3.0 | Walidacja pól obowiązkowych i formatu e-maila w formularzu rejestracji |
+| `test_xss.py` | 10.3.5 | Próby wstrzyknięcia XSS - potwierdzają, że React escape'uje wartości w JSX |
