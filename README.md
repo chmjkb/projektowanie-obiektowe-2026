@@ -117,24 +117,24 @@ Aplikacja w Vaporze wykorzystująca Leaf jako silnik szablonów oraz
 Fluent jako ORM. Trzy modele oraz CRUD dla każdego z nich, model
 z minimum jedną relacją, CRUD odzwierciedlony w szablonach.
 
-:white_check_mark: 9.3.0 Kontroler wraz z modelem Produktów zgodny z CRUD w ORM Fluent - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/bd671f7)
+:white_check_mark: 9.3.0 Kontroler wraz z modelem Produktów zgodny z CRUD w ORM Fluent - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/acb5ecf)
 
-:white_check_mark: 9.3.5 Szablony w Leaf dla CRUD produktów - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/2fa76f2)
+:white_check_mark: 9.3.5 Szablony w Leaf dla CRUD produktów - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/dbda604)
 
-:white_check_mark: 9.4.0 Drugi model oraz kontroler Kategorii wraz z relacją Parent/Children - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/c54b17a)
+:white_check_mark: 9.4.0 Drugi model oraz kontroler Kategorii wraz z relacją Parent/Children - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/2a580bc)
 
-:white_check_mark: 9.4.5 Wykorzystanie Redis do przechowywania (cache listy produktów z TTL 60s) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/624b0ae)
+:white_check_mark: 9.4.5 Wykorzystanie Redis do przechowywania (cache listy produktów z TTL 60s) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/7ba033f)
 
-:white_check_mark: 9.5.0 Konfiguracja deploymentu na Heroku (Procfile, app.json, buildpack) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/71fab09)
+:white_check_mark: 9.5.0 Konfiguracja deploymentu na Heroku (Procfile, app.json, buildpack) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/ba95ea6)
 
 **Zadanie 10** Selenium/WebDriver + Playwright (testy aplikacji LAB5)
 
-:white_check_mark: 10.3.0 Testy walidacji pól obowiązkowych i formatu adresu e-mail w formularzu rejestracji - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/3870c3e)
+:white_check_mark: 10.3.0 Testy walidacji pól obowiązkowych i formatu adresu e-mail w formularzu rejestracji - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/f398c04)
 
-:white_check_mark: 10.3.5 Testy bezpieczeństwa XSS - próby wstrzyknięcia JavaScriptu w aplikacji React - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/ab24e4d)
+:white_check_mark: 10.3.5 Testy bezpieczeństwa XSS - próby wstrzyknięcia JavaScriptu w aplikacji React - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/a5ad1d2)
 
-:white_check_mark: 10.4.0 Testy koszyka zakupowego przy otwarciu aplikacji w kilku kartach przeglądarki - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/41cdb2a)
+:white_check_mark: 10.4.0 Testy koszyka zakupowego przy otwarciu aplikacji w kilku kartach przeglądarki - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/bbb6316)
 
-:white_check_mark: 10.4.5 Formularz logowania + testy podatności CSRF (zmiana ustawień konta spreparowanym linkiem) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/1a7892c)
+:white_check_mark: 10.4.5 Formularz logowania + testy podatności CSRF (zmiana ustawień konta spreparowanym linkiem) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/8db4642)
 
-:white_check_mark: 10.5.0 Scenariusz End-to-End w Playwright (56 asercji) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/0f0248b)
+:white_check_mark: 10.5.0 Scenariusz End-to-End w Playwright (56 asercji) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/44073aa)
