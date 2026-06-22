@@ -5,6 +5,7 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -36,3 +37,31 @@ jobs:
             VITE_API_BASE=${{ vars.VITE_API_BASE || 'https://projektowanie-obiektowe-2026.onrender.com' }}
           cache-from: type=gha,scope=frontend
           cache-to: type=gha,mode=max,scope=frontend
+
+  notify:
+    name: Email notification
+    needs: build
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send build status email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          from: GitHub Actions <${{ secrets.MAIL_USERNAME }}>
+          to: ${{ secrets.MAIL_TO }}
+          subject: "[LAB5] Build ${{ needs.build.result }} — ${{ github.repository }}@${{ github.ref_name }}"
+          body: |
+            Status budowania obrazów Docker: ${{ needs.build.result }}
+
+            Repozytorium: ${{ github.repository }}
+            Branch:       ${{ github.ref_name }}
+            Commit:       ${{ github.sha }}
+            Autor:        ${{ github.actor }}
+
+            Szczegóły uruchomienia:
+            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
