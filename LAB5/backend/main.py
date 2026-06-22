@@ -1,4 +1,5 @@
 import hashlib
+import os
 import re
 import secrets
 
@@ -9,9 +10,19 @@ from pydantic import BaseModel, Field
 
 app = FastAPI(title="LAB5 Backend")
 
+_DEFAULT_ORIGINS = [
+    "http://localhost:5173",
+    "http://localhost:8080",
+    "http://127.0.0.1:5173",
+]
+_extra_origins = [
+    o.strip() for o in os.getenv("ALLOWED_ORIGINS", "").split(",") if o.strip()
+]
+ALLOWED_ORIGINS = _DEFAULT_ORIGINS + _extra_origins
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:8080", "http://127.0.0.1:5173"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
