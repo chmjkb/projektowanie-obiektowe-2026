@@ -1,0 +1,38 @@
+name: LAB5 CI/CD (Zadanie 11)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build Docker images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: LAB5/backend
+          push: false
+          tags: lab5-backend:ci
+          cache-from: type=gha,scope=backend
+          cache-to: type=gha,mode=max,scope=backend
+
+      - name: Build frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: LAB5/frontend
+          push: false
+          tags: lab5-frontend:ci
+          build-args: |
+            VITE_API_BASE=${{ vars.VITE_API_BASE || 'https://projektowanie-obiektowe-2026.onrender.com' }}
+          cache-from: type=gha,scope=frontend
+          cache-to: type=gha,mode=max,scope=frontend
