@@ -139,17 +139,16 @@ z minimum jedną relacją, CRUD odzwierciedlony w szablonach.
 
 :white_check_mark: 10.5.0 Scenariusz End-to-End w Playwright (56 asercji) - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/44073aa)
 
-Zadanie 11 Chmura
+**Zadanie 11** Chmura
 
-3.0 Należy stworzyć odpowiednie instancje po stronie chmury na dockerze - stworzone za pomocą serwisu Render, link: https://projektowanie-obiektowe-2026-1.onrender.com/
+:white_check_mark: 11.3.0 Należy stworzyć odpowiednie instancje po stronie chmury na dockerze - stworzone za pomocą serwisu Render, link: https://projektowanie-obiektowe-2026-1.onrender.com/ - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/6dcb823)
 
-3.5 Stworzyć odpowiedni pipeline w Github Actions do budowania
-aplikacji
+:white_check_mark: 11.3.5 Stworzyć odpowiedni pipeline w Github Actions do budowania aplikacji - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/f552de5)
 
-4.0 Dodać notyfikację mailową o zbudowaniu aplikacji
+:white_check_mark: 11.4.0 Dodać notyfikację mailową o zbudowaniu aplikacji - [link do commita](https://github.com/chmjkb/projektowanie-obiektowe-2026/commit/6e8565b)
 
-4.5 Dodać krok z deploymentem aplikacji serwerowej oraz klienckiej na
+11.4.5 Dodać krok z deploymentem aplikacji serwerowej oraz klienckiej na
 chmurę
 
-5.0 Dodać uruchomienie regresyjnych testów automatycznych
+11.5.0 Dodać uruchomienie regresyjnych testów automatycznych
 (funkcjonalnych) jako krok w Actions
